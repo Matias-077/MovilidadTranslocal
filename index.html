@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Directorio de rutas alternas, horarios y puntos de encuentro del transporte interveredal e intermunicipal de Soacha, Cundinamarca.">
+  <meta name="theme-color" content="#080e1c">
+  <title>Rutas Alternas y Horarios · Soacha</title>
+  <script>
+    /* Aplica el tema guardado (o el del sistema) antes de pintar, para evitar parpadeos */
+    (function () {
+      var t = 'dark';
+      try {
+        var s = localStorage.getItem('theme');
+        t = (s === 'light' || s === 'dark') ? s : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="jox.css">
+</head>
+<body>
+  <a class="skip-link" href="#resultados">Saltar a las rutas</a>
+
+  <!-- Barra superior -->
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#inicio" aria-label="Movilidad Translocal Soacha">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22c4-10 8-12 12-8s8 2 12-8"/><circle cx="4" cy="22" r="2.2" fill="currentColor"/><circle cx="28" cy="6" r="2.2" fill="currentColor"/></svg>
+        </span>
+        <span class="brand-text"><strong>Movilidad Translocal</strong><small>Soacha · Cundinamarca</small></span>
+      </a>
+      <nav class="topnav" aria-label="Secciones">
+        <a href="#rutas">Rutas</a>
+        <a href="#como-usar">Cómo usar</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-checked="true" aria-label="Cambiar a tema claro" title="Cambiar tema">
+        <span class="tt-stars" aria-hidden="true"></span>
+        <span class="tt-clouds" aria-hidden="true"></span>
+        <span class="tt-thumb" aria-hidden="true">
+          <svg class="tt-sun" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path fill="none" d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+          <svg class="tt-moon" viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6a.7.7 0 0 0-.9-.9A9.6 9.6 0 1 0 21.3 15.5a.7.7 0 0 0-.9-.9z"/></svg>
+        </span>
+      </button>
+      <button class="btn-emergency" id="openEmergency" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+        Emergencias
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="inicio">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Transporte interveredal e intermunicipal</span>
+        <h1>Llega a tu cita, a tu clase o a tu trabajo, <em>aun con la vía cerrada.</em></h1>
+        <p class="lead">Consulta rutas alternas, horarios de salida y puntos de encuentro para moverte entre las veredas de Soacha, los municipios vecinos y Bogotá cuando hay derrumbes o cierres viales.</p>
+
+        <label class="search" for="searchInput">
+          <span class="sr-only">Buscar rutas</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="search" id="searchInput" placeholder="Busca tu vereda, punto de encuentro o empresa…" autocomplete="off">
+        </label>
+
+        <div class="quick" role="group" aria-label="¿A dónde necesitas ir?">
+          <span class="quick-label">Necesito ir a:</span>
+          <div class="quick-chips" id="quickChips"></div>
+        </div>
+      </div>
+
+      <aside class="status-panel" aria-label="Estado de la movilidad">
+        <div class="status-head">
+          <h2>Estado de la movilidad</h2>
+          <p class="clock" id="liveClock">—</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat"><span class="stat-num" id="statTotal">0</span><span class="stat-label">Rutas registradas</span></div>
+          <div class="stat stat-ok"><span class="stat-num" id="statOk">0</span><span class="stat-label">Habilitadas</span></div>
+          <div class="stat stat-warn"><span class="stat-num" id="statWarn">0</span><span class="stat-label">En contingencia</span></div>
+          <div class="stat stat-bad"><span class="stat-num" id="statBad">0</span><span class="stat-label">Restringidas</span></div>
+        </div>
+        <div class="meter" id="meter" role="img" aria-label="Proporción de rutas por estado"></div>
+        <p class="updated"><span class="pulse" aria-hidden="true"></span> Última actualización: <strong id="statUpdated">—</strong></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Filtros -->
+  <section class="filters" id="rutas" aria-label="Filtros">
+    <div class="wrap">
+      <div class="tabs-row">
+        <div class="tabs" role="tablist" aria-label="Filtrar por municipio" id="tabs"></div>
+      </div>
+      <div class="toolbar">
+        <label class="field">
+          <span>Vereda o sector</span>
+          <select id="veredaSelect"></select>
+        </label>
+        <div class="field">
+          <span id="estadoLabel">Estado de la vía</span>
+          <div class="seg" id="estadoChips" role="group" aria-labelledby="estadoLabel"></div>
+        </div>
+        <label class="field">
+          <span>Ordenar por</span>
+          <select id="ordenSelect">
+            <option value="proxima">Próxima salida</option>
+            <option value="nombre">Nombre (A–Z)</option>
+            <option value="tarifa">Tarifa más baja</option>
+          </select>
+        </label>
+        <button class="btn-ghost" id="clearFilters" type="button">Limpiar filtros</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resultados -->
+  <main class="wrap results" id="resultados" role="tabpanel" aria-labelledby="tab-todos">
+    <div class="results-head">
+      <h2 id="resultsTitle">Rutas disponibles</h2>
+      <p class="results-count" id="resultsCount" aria-live="polite"></p>
+    </div>
+    <div class="routes-grid" id="routesGrid"></div>
+  </main>
+
+  <!-- Cómo usar -->
+  <section class="howto" id="como-usar">
+    <div class="wrap">
+      <span class="eyebrow">Guía rápida</span>
+      <h2>Cómo encontrar tu ruta en tres pasos</h2>
+      <ol class="steps">
+        <li><span class="step-n">1</span><h3>Elige tu zona</h3><p>Usa las pestañas de municipio y el selector de vereda para ver solo lo que te sirve.</p></li>
+        <li><span class="step-n">2</span><h3>Revisa el estado de la vía</h3><p>Verde significa habilitada, ámbar paso en contingencia y rojo con restricciones. Lee siempre las novedades.</p></li>
+        <li><span class="step-n">3</span><h3>Ve al punto de encuentro</h3><p>Anota la próxima salida y comparte la ruta por WhatsApp con tu familia o vecinos.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <strong>Movilidad Translocal Soacha</strong>
+        <p id="footerAviso"></p>
+      </div>
+      <p class="footer-note">Para actualizar la información edita el archivo <code>sql.json</code>; la página se actualiza sola.</p>
+    </div>
+  </footer>
+
+  <!-- Modal de emergencias -->
+  <dialog id="emergencyDialog" aria-labelledby="emergencyTitle">
+    <div class="dialog-card">
+      <div class="dialog-head">
+        <h2 id="emergencyTitle">Líneas de emergencia</h2>
+        <button class="dialog-close" id="closeEmergency" type="button" aria-label="Cerrar">✕</button>
+      </div>
+      <p class="dialog-sub">Toca un número para llamar directamente desde tu celular.</p>
+      <ul class="contact-list" id="contactList"></ul>
+    </div>
+  </dialog>
+
+  <script src="main.js"></script>
+</body>
+</html>
